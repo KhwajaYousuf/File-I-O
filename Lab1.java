@@ -1,5 +1,3 @@
-package lab_1;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -14,7 +12,7 @@ import java.util.Scanner;
  * 
   */
 
-public class Lab1 {
+public class Lab2 {
 
     /**
      * The main method to test the functionality of the Numbers class.
@@ -23,7 +21,7 @@ public class Lab1 {
      */
 	public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Numbers num = new Numbers(); // Create an instance of the Numbers class
+        Numbers num = new Numbers(); 		// Create an instance of the Numbers class
 
         int choice;
         do {
@@ -33,15 +31,15 @@ public class Lab1 {
                 System.out.print("> ");
                 choice = scanner.nextInt(); // Read and store user input
 
-                switch (choice) { // Start of switch statement
-                    case 1: // Initialize a default array
+                switch (choice) {
+                    case 1:                 // Initialize a default array
                         num = new Numbers();
                         break;
 
-                    case 2: // Specify the max size of the array
+                    case 2:                 // Specify the max size of the array
                         int maxSize;
                         while (true) {
-                            System.out.print("Enter the max size: ");
+                            System.out.print("Enter new size of array: ");
                             maxSize = scanner.nextInt();
                             if (maxSize <= 0) {
                                 System.out.println("Invalid input. Max size must be a positive integer. Try again.");
@@ -50,19 +48,17 @@ public class Lab1 {
                             }
                         }
                         num = new Numbers(maxSize);
-                        System.out.println("Array initialized with max size: " + maxSize);
                         break;
 
-                    case 3: // Add value to the array
+                    case 3:                 // Add value to the array
                         num.addValue(scanner);
                         break;
 
-                    case 4: // Display values in the array
+                    case 4:                 // Display values in the array
                         System.out.println(num.toString());
                         break;
 
-                    case 5:
-                        // Display average, minimum, maximum, max mod min, factorialMax
+                    case 5:                 // Display average, minimum value, maximum value, max mod min, factorialMax
                         if (num.numItems == 0) {
                             System.out.println("Average is: 0.0, Minimum value is 0.0, Maximum value is 0.0, Max mod Min is: _______ , Factorial of Max is: _______");
                         } else {
@@ -75,12 +71,28 @@ public class Lab1 {
                         }
                         break;
 
-                    case 6: // Exit option
+                    case 6:                 // Enter multiple values
+                        num.addValues(scanner, true);
+                        break;
+
+                    case 7:                 // Read values from file
+                        System.out.print("Enter the file name to read values from: ");
+                        String readFile = scanner.next();
+                        num.readValuesFromFile(readFile);
+                        break;
+
+                    case 8:                 // Save values to file
+                        System.out.print("Enter the file name to save values: ");
+                        String saveFile = scanner.next();
+                        num.saveValuesToFile(saveFile);
+                        break;
+
+                    case 9:                 // Exit the program
                         System.out.println("Exiting...");
                         break;
 
                     default:
-                        System.out.println("...invalid input...try again...");
+                        System.out.println("...invalid input...try again...");                 // Invalid input, prompt the user to try again
                         scanner.nextLine(); // Consume the invalid input
                         choice = 0; // Set choice to 0 to continue the loop
                         break;
@@ -89,15 +101,10 @@ public class Lab1 {
                 System.out.println("...invalid input...try again...");
                 scanner.nextLine(); // Consume the invalid input
                 choice = 0; // Set choice to 0 to continue the loop
-            }	
-        } while (choice != 6);
-	}
-	
-	
-	
-    /**
-     * Displays the main menu options.
-     */
+            }
+        } while (choice != 9);
+    }
+
     private static void displayMainMenu() {
         System.out.println("Please select one of the following:");
         System.out.println("1: Initialize a default array");
@@ -105,6 +112,9 @@ public class Lab1 {
         System.out.println("3: Add value to the array");
         System.out.println("4: Display values in the array");
         System.out.println("5: Display average, minimum value, maximum value, max mod min, factorialMax");
-        System.out.println("6: To Exit");
+        System.out.println("6: Enter multiple values");
+        System.out.println("7: Read values from file");
+        System.out.println("8: Save values to file");
+        System.out.println("9: To Exit");
     }
 }
