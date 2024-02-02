@@ -1,108 +1,95 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-/**
- * Lab1 class contains the main method to test the Numbers class.
- * CET - CS Academic Level 3
- * This class contains the dynamically allocated array and it's processing
- * Student Name: Khwaja Yousuf Mohiyuddeen
- * Student Number: 041-079-310
- * Course: CST8130 - Data Structures
- * @author/Professor: James Mwangi PhD. 
- * 
-  */
-
 public class Lab2 {
 
-    /**
-     * The main method to test the functionality of the Numbers class.
-     *
-     * @param args Command line arguments (not used in this application)
-     */
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Numbers num = new Numbers(); 		// Create an instance of the Numbers class
+        Numbers num = new Numbers();
 
         int choice;
         do {
-            displayMainMenu(); // Calling displayMainMenu options
+            displayMainMenu();
 
             try {
                 System.out.print("> ");
-                choice = scanner.nextInt(); // Read and store user input
+                choice = scanner.nextInt();
 
                 switch (choice) {
-                    case 1:                 // Initialize a default array
+                    case 1:
                         num = new Numbers();
                         break;
-
-                    case 2:                 // Specify the max size of the array
-                        int maxSize;
-                        while (true) {
-                            System.out.print("Enter new size of array: ");
-                            maxSize = scanner.nextInt();
-                            if (maxSize <= 0) {
-                                System.out.println("Invalid input. Max size must be a positive integer. Try again.");
-                            } else {
-                                break;
-                            }
-                        }
-                        num = new Numbers(maxSize);
+                    case 2:
+                        num = initArrayWithSize(scanner);
                         break;
-
-                    case 3:                 // Add value to the array
+                    case 3:
                         num.addValue(scanner);
                         break;
-
-                    case 4:                 // Display values in the array
+                    case 4:
                         System.out.println(num.toString());
                         break;
-
-                    case 5:                 // Display average, minimum value, maximum value, max mod min, factorialMax
-                        if (num.numItems == 0) {
-                            System.out.println("Average is: 0.0, Minimum value is 0.0, Maximum value is 0.0, Max mod Min is: _______ , Factorial of Max is: _______");
-                        } else {
-                            float[] result = num.findMinMax();
-                            System.out.println("Average is: " + num.calcAverage() +
-                                    ", Minimum value is: " + result[0] +
-                                    ", Maximum value is: " + result[1] +
-                                    ", Max mod Min is: " + result[2] +
-                                    ", Factorial of Max is: " + num.getfactorialMax());
-                        }
+                    case 5:
+                        displayStatistics(num);
                         break;
-
-                    case 6:                 // Enter multiple values
+                    case 6:
                         num.addValues(scanner, true);
                         break;
-
-                    case 7:                 // Read values from file
-                        System.out.print("Enter the file name to read values from: ");
-                        String readFile = scanner.next();
-                        num.readValuesFromFile(readFile);
+                    case 7:
+                        readValuesFromFile(num, scanner);
                         break;
-
-                    case 8:                 // Save values to file
-                        System.out.print("Enter the file name to save values: ");
-                        String saveFile = scanner.next();
-                        num.saveValuesToFile(saveFile);
+                    case 8:
+                        saveValuesToFile(num, scanner);
                         break;
-
-                    case 9:                 // Exit the program
+                    case 9:
                         System.out.println("Exiting...");
                         break;
-
                     default:
-                        System.out.println("...invalid input...try again...");                 // Invalid input, prompt the user to try again
-                        scanner.nextLine(); // Consume the invalid input
-                        choice = 0; // Set choice to 0 to continue the loop
+                        System.out.println("Invalid input. Try again.");
+                        scanner.nextLine();
+                        choice = 0;
                         break;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("...invalid input...try again...");
-                scanner.nextLine(); // Consume the invalid input
-                choice = 0; // Set choice to 0 to continue the loop
+                System.out.println("Invalid input. Please enter a valid option.");
+                scanner.nextLine();
+                choice = 0;
             }
         } while (choice != 9);
+    }
+
+    private static Numbers initArrayWithSize(Scanner scanner) {
+        int maxSize;
+        do {
+            System.out.print("Enter new size of array: ");
+            maxSize = scanner.nextInt();
+            if (maxSize <= 0) {
+                System.out.println("Invalid input. Max size must be a positive integer. Try again.");
+            }
+        } while (maxSize <= 0);
+        return new Numbers(maxSize);
+    }
+
+    private static void displayStatistics(Numbers num) {
+        if (num.numItems == 0) {
+            System.out.println("No values entered yet.");
+        } else {
+            float[] result = num.findMinMax();
+            System.out.printf("Average: %.2f, Minimum value: %.2f, Maximum value: %.2f, " +
+                    "Max mod Min: %.2f, Factorial of Max: %d%n",
+                    num.calcAverage(), result[0], result[1], result[2], num.getfactorialMax());
+        }
+    }
+
+    private static void readValuesFromFile(Numbers num, Scanner scanner) {
+        System.out.print("Enter the file name to read values from: ");
+        String readFile = scanner.next();
+        num.readValuesFromFile(readFile);
+    }
+
+    private static void saveValuesToFile(Numbers num, Scanner scanner) {
+        System.out.print("Enter the file name to save values: ");
+        String saveFile = scanner.next();
+        num.saveValuesToFile(saveFile);
     }
 
     private static void displayMainMenu() {
